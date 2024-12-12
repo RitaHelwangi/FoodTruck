@@ -14,12 +14,14 @@
     <script type="module" src="app.js"></script>
   </head>
   <body>
+    <!------menu vy-->
     <section class="menu-vy">
       <div class="cart-btn">
-        <span class="menu-red-badge"> 10 </span>
+        <div class="note-cart hide">10</div>
         <img src="images/cart.png" alt="lock icon" />
       </div>
       <h1>MENY</h1>
+
       <section class="menu"></section>
 
       <section class="dips">
@@ -31,6 +33,66 @@
         <h2>DRICKA<span class="dots">/</span>19 SEK</h2>
         <div class="drinks-btn"></div>
       </section>
+    </section>
+
+    <!---------------cart vy-->
+    <div class="cart-vy hide">
+      <div class="cart-btn home">
+        <img src="images/cart.png" alt="lock icon" />
+      </div>
+
+      <div class="order-list"></div>
+
+      <div class="flex-bottom">
+        <div class="order-price">
+          <div>
+            <p class="total">TOTALT</p>
+            <p class="moms">inkl 20% moms</p>
+          </div>
+
+          <p class="price">0 SEK</p>
+        </div>
+        <button class="pay-btn" id="order">TAKE MY MONEY!</button>
+      </div>
+    </div>
+
+    <!------------Eta vy-->
+    <section class="eta-vy hide">
+      <img src="images/yum.box.png" alt="food box" />
+      <div class="eta-info">
+        <h1>DINA WONTONS TILLAGAS!</h1>
+        <p class="eta-time"></p>
+        <p class="order-id"></p>
+      </div>
+      <div class="flex-bottom">
+        <button class="receipt-btn pay-btn">SE KVITTO</button>
+        <button class="pay-btn new-order">GÖR EN NY BESTÄLLNING</button>
+      </div>
+    </section>
+
+    <!-----------Receipt vy-->
+    <section class="receipt-vy hide">
+      <div class="receipt">
+        <section class="receipt-info">
+          <img src="images/logo.png" alt="foodtruck logo" />
+          <h2>KVITTO</h2>
+          <p class="order-id"></p>
+
+          <div class="send-order"></div>
+        </section>
+
+        <div class="order-price">
+          <div>
+            <p class="total">TOTALT</p>
+            <p class="moms">inkl 20% moms</p>
+          </div>
+          <p class="price">0 SEK</p>
+        </div>
+      </div>
+
+      <div class="flex-bottom">
+        <button class="pay-btn new-order">GÖR EN NY BESTÄLLNING</button>
+      </div>
     </section>
   </body>
 </html>
