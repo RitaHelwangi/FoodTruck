@@ -265,7 +265,7 @@ body {
 }
 
 .cart-btn {
-  background-color: var(--white-color);
+  background-color: var(--white);
   width: fit-content;
   border-radius: 4px;
   position: absolute;
