@@ -7,7 +7,7 @@
 
 :root {
   --green: #489078;
-  --grey: #f1f0ec3d;
+  --grey: #605858;
   --light-grey: #c2c1c1;
   --dark-grey: #353131;
   --text-color: #f4f3f1f0;
@@ -91,8 +91,7 @@ body {
       padding-top: 1rem;
     }
 
-    dips-btn,
-    drinks-btn {
+    button {
       width: fit-content;
       padding: 0.5rem 0.75rem;
       border-radius: 0.25rem;
