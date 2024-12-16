@@ -6,41 +6,15 @@ console.log("Tenant Name:", TENANT_NAME);
 
 const config = require('./config');*/
 
-const key = "yum-7BTxHCyHhzIME5TI";
-
-const tenant = {
-	id: "m3z7",
-	name: "Rita",
-};
-
-const options = {
-  method: "GET",
-  headers: {
-    "Content-Type": "application/json",
-	accept: "application/json",
-    "x-zocom": key,
-  },
-};
+import { fetchWontonData, fetchDipData, fetchDrinkData } from "./api.js";
 
 let cart = {};
 let getOrder = "";
 
-let url = "https://fdnzawlcf6.execute-api.eu-north-1.amazonaws.com/menu";
-
-const wontonResponse = await fetch(url + "?type=wonton", options);
-const wontonData = await wontonResponse.json();
-
-const dipResponse = await fetch(url + "?type=dip", options);
-const dipData = await dipResponse.json();
-
-const drinkResponse = await fetch(url + "?type=drink", options);
-const drinkData = await drinkResponse.json();
-
-
-/*console.log(wontonData.items);
-console.log(dipData.items);
-console.log(drinkData.items);*/
-
+// Fetch data from API
+const wontonData = await fetchWontonData();
+const dipData = await fetchDipData();
+const drinkData = await fetchDrinkData();
 
 const dipsBtn = document.querySelector(".dips-btn");
 const drinksBtn = document.querySelector(".drinks-btn");
@@ -102,15 +76,16 @@ document.querySelector(".menu").addEventListener("click", (event) => {
 	updateCartNumber();
 });
 
-document.querySelector(".dips.btn").addEventListener("click", (event) =>{
+document.querySelector(".dips-btn").addEventListener("click", (event) =>{
 	if (event.currentTarget.closest("button")) {
 		const item = event.target.closest("button");
+
 		updateCart(item.getAttribute("orderId"));
+		updateCartNumber();
 	}
-	updateCartNumber();
 });
 
-document.querySelector(".drinks.btn").addEventListener("click", (event) =>{
+document.querySelector(".drinks-btn").addEventListener("click", (event) =>{
 	if (event.currentTarget.closest("button")) {
 		const item = event.target.closest("button");
 		
