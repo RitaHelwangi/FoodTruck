@@ -6,7 +6,7 @@ console.log("Tenant Name:", TENANT_NAME);
 
 const config = require('./config');*/
 
-import { fetchWontonData, fetchDipData, fetchDrinkData } from "./api.js";
+/*import { fetchWontonData, fetchDipData, fetchDrinkData } from "./api.js";*/
 
 let cart = {};
 let getOrder = "";
@@ -26,8 +26,6 @@ const orderList = document.querySelector(".order-list");
 const numberOfItemInCart = document.querySelector(".note-cart");
 const SendOrder = document.querySelector("send-order");
 
-
-
 // Create and display menu items
 wontonData.items.forEach((item) => {
   createMenuItem(item);
@@ -41,87 +39,85 @@ drinkData.items.forEach((item) => {
   createDipOrDrinkList(item, drinksBtn);
 });
 
-document.querySelector(".cart-btn").addEventListener("click", ()=> {
-	hideAllPages();
-	cartVy.classList.remove("hide");
+document.querySelector(".cart-btn").addEventListener("click", () => {
+  hideAllPages();
+  cartVy.classList.remove("hide");
 
-	for (const [key, value] of Object.entries(cart)) {
-		renderOrderCart(key, value);
-		updateTotalPrice();
-	}
+  for (const [key, value] of Object.entries(cart)) {
+    renderOrderCart(key, value);
+    updateTotalPrice();
+  }
 });
 
-document.querySelector(".home").addEventListener("click", ()=> {
-	hideAllPages();
-	menuVy.classList.remove("hide");
-	orderList.innerHTML = "";
+document.querySelector(".home").addEventListener("click", () => {
+  hideAllPages();
+  menuVy.classList.remove("hide");
+  orderList.innerHTML = "";
 });
 
 document.querySelector("#order").addEventListener("click", () => {
-if (Object.keys(cart).length ===0) {
-	return
-}
-else {
-	hideAllPages();
-	etaVy.classList.remove("hide");
-	SendOrder();
-}
+  if (Object.keys(cart).length === 0) {
+    return;
+  } else {
+    hideAllPages();
+    etaVy.classList.remove("hide");
+    SendOrder();
+  }
 });
 
 document.querySelector(".menu").addEventListener("click", (event) => {
-	if (event.target.closest(".item")) {
-		const item = event.target.closest(".item");
-		updateCart(item.getAttribute("orderId"));
-	}
-	updateCartNumber();
+  if (event.target.closest(".item")) {
+    const item = event.target.closest(".item");
+    updateCart(item.getAttribute("orderId"));
+  }
+  updateCartNumber();
 });
 
-document.querySelector(".dips-btn").addEventListener("click", (event) =>{
-	if (event.currentTarget.closest("button")) {
-		const item = event.target.closest("button");
+document.querySelector(".dips-btn").addEventListener("click", (event) => {
+  if (event.currentTarget.closest("button")) {
+    const item = event.target.closest("button");
 
-		updateCart(item.getAttribute("orderId"));
-		updateCartNumber();
-	}
+    updateCart(item.getAttribute("orderId"));
+    updateCartNumber();
+  }
 });
 
-document.querySelector(".drinks-btn").addEventListener("click", (event) =>{
-	if (event.currentTarget.closest("button")) {
-		const item = event.target.closest("button");
-		
-		updateCart(item.getAttribute("orderId"));
-		updateCartNumber();
-	}
+document.querySelector(".drinks-btn").addEventListener("click", (event) => {
+  if (event.currentTarget.closest("button")) {
+    const item = event.target.closest("button");
+
+    updateCart(item.getAttribute("orderId"));
+    updateCartNumber();
+  }
 });
 
-document.querySelector(".fade-btn")("click" , () => {
-	hideAllPages();
-	receiptVy.classList.remove("hide");
-	renderOutReceipt();
+document.querySelector(".fade-btn")("click", () => {
+  hideAllPages();
+  receiptVy.classList.remove("hide");
+  renderOutReceipt();
 });
 
-document.querySelectorAll(".new-order").forEach((button) =>{
-	button.addEventListener("click", () => {
-		hideAllPages();
-		menuVy.classList.remove("hide");
-		orderResetHandler();
-	});
+document.querySelectorAll(".new-order").forEach((button) => {
+  button.addEventListener("click", () => {
+    hideAllPages();
+    menuVy.classList.remove("hide");
+    orderResetHandler();
+  });
 });
 
 function orderResetHandler() {
-	const item = document.querySelectorAll("[orderId]");
-	cart = {};
-	orderList.innerHTML = "";
-	SendOrder.innerHTML =""
-	updateCartNumber();
-	updateTotalPrice();
+  const item = document.querySelectorAll("[orderId]");
+  cart = {};
+  orderList.innerHTML = "";
+  SendOrder.innerHTML = "";
+  updateCartNumber();
+  updateTotalPrice();
 
-	const orderId =document.querySelectorAll(".order-id");
-	orderId.forEach((order) => {
-		order.innerText = "";
-	});
+  const orderId = document.querySelectorAll(".order-id");
+  orderId.forEach((order) => {
+    order.innerText = "";
+  });
 }
-
 
 // menu items
 function createMenuItem(food) {
@@ -151,17 +147,17 @@ function createMenuItem(food) {
 
 //dips n drinks
 function createDipOrDrinkList(type, sort) {
- let button = document.createElement("button");
- button.setAttribute("orderId", type.id);
- button.innerText = type.name;
+  let button = document.createElement("button");
+  button.setAttribute("orderId", type.id);
+  button.innerText = type.name;
 
- sort.append(button);
+  sort.append(button);
 }
 
- //hide vy
- function hideAllPages() {
-	cartBtn.classList.add("hide");
-	etaVy.classList.add("hide");
-	receiptVy.classList.add("hide");
-	menuVy.classList.add("hide");
- }
+//hide vy
+function hideAllPages() {
+  cartBtn.classList.add("hide");
+  etaVy.classList.add("hide");
+  receiptVy.classList.add("hide");
+  menuVy.classList.add("hide");
+}

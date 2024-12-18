@@ -11,12 +11,12 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
-    <script type="module" src="app.js"></script>
+    <script type="module" src="index.js"></script>
   </head>
   <body>
     <!------menu vy-->
     <section class="menu-vy">
-      <div class="cart-btn">
+      <div class="cart-menu">
         <div class="note-cart hide">10</div>
         <img src="images/cart btn (5).png" alt="lock icon" />
       </div>
@@ -37,8 +37,8 @@
 
     <!---------------cart vy-->
     <div class="cart-vy hide">
-      <div class="cart-btn home">
-        <img src="images/cart.png" alt="lock icon" />
+      <div class="cart-menu home">
+        <img src="images/cart btn (5).png" alt="lock icon" />
       </div>
 
       <div class="order-list"></div>
@@ -46,27 +46,27 @@
       <div class="flex-bottom">
         <div class="order-price">
           <div>
-            <p class="total">TOTALT</p>
+            <p class="total-price">TOTALT</p>
             <p class="moms">inkl 20% moms</p>
           </div>
 
           <p class="price">0 SEK</p>
         </div>
-        <button class="pay-btn" id="order">TAKE MY MONEY!</button>
+        <button class="buttons" id="order">TAKE MY MONEY!</button>
       </div>
     </div>
 
     <!------------Eta vy-->
     <section class="eta-vy hide">
       <img src="images/yum.box.png" alt="food box" />
-      <div class="eta-info">
+      <div class="eta-text">
         <h1>DINA WONTONS TILLAGAS!</h1>
         <p class="eta-time"></p>
         <p class="order-id"></p>
       </div>
       <div class="flex-bottom">
-        <button class="receipt-btn pay-btn">SE KVITTO</button>
-        <button class="pay-btn new-order">GÖR EN NY BESTÄLLNING</button>
+        <button class="fade-btn buttons">SE KVITTO</button>
+        <button class="buttons new-order">GÖR EN NY BESTÄLLNING</button>
       </div>
     </section>
 
@@ -78,12 +78,12 @@
           <h2>KVITTO</h2>
           <p class="order-id"></p>
 
-          <div class="send-order"></div>
+          <div class="finish-order"></div>
         </section>
 
         <div class="order-price">
           <div>
-            <p class="total">TOTALT</p>
+            <p class="total-price">TOTALT</p>
             <p class="moms">inkl 20% moms</p>
           </div>
           <p class="price">0 SEK</p>
@@ -91,7 +91,7 @@
       </div>
 
       <div class="flex-bottom">
-        <button class="pay-btn new-order">GÖR EN NY BESTÄLLNING</button>
+        <button class="buttons new-order">GÖR EN NY BESTÄLLNING</button>
       </div>
     </section>
   </body>

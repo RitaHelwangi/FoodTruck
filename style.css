@@ -134,7 +134,7 @@ body {
         border-bottom: 1px dotted;
         padding-bottom: 1rem;
 
-        pay-btn {
+        button {
           border: none;
           background-color: var(--light-grey);
           border-radius: 100%;
@@ -162,7 +162,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
 
-  .eta-info {
+  .eta-text {
     display: flex;
     flex-direction: column;
     padding: 1rem 0 2rem;
@@ -198,14 +198,14 @@ body {
       flex-direction: column;
       align-items: center;
 
-      .send-order {
+      .finish-order {
         width: 100%;
         display: flex;
         flex-direction: column;
         gap: 1.2rem;
         padding: 16px 0;
 
-        .send-order-item {
+        .finish-order-item {
           h2 {
             gap: 0.5rem;
             width: 100%;
@@ -231,7 +231,7 @@ body {
   justify-content: space-between;
   width: 100%;
 
-  .total {
+  .total-price {
     font-size: 22px;
     font-weight: 700;
   }
@@ -247,7 +247,7 @@ body {
   }
 }
 
-.pay-btn {
+.buttons {
   background-color: var(--dark-grey);
   color: var(--text-color);
   border: none;
@@ -263,7 +263,7 @@ body {
   border: 2px solid var(--text-color);
 }
 
-.cart-btn {
+.cart-menu {
   background-color: var(--white);
   width: fit-content;
   border-radius: 4px;
