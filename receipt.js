@@ -1,10 +1,9 @@
 import { fetchReceipt } from "./api.js";
 
-export async function renderReceipt(orderId, finishOrder) {
-  const order = await fetchReceipt(orderId);
+export async function renderReceipt() {
+  const order = await fetchReceipt(getOrderId);
   const items = order.receipt.items;
 
-  finishOrder.innerHTML = ""; // Clear previous items
   items.forEach((item) => {
     const container = document.createElement("div");
     container.classList.add("finish-order-item");
@@ -16,6 +15,6 @@ export async function renderReceipt(orderId, finishOrder) {
     p.textContent = `${item.quantity} stycken`;
 
     container.append(h2, p);
-    finishOrder.append(container);
+    document.querySelector(".finish-order").append(container);
   });
 }

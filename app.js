@@ -1,163 +1,89 @@
-/*import { API_KEY, TENANT_ID, TENANT_NAME } from './config';
-
-console.log("API Key:", API_KEY);
-console.log("Tenant ID:", TENANT_ID);
-console.log("Tenant Name:", TENANT_NAME);
-
-const config = require('./config');*/
-
-/*import { fetchWontonData, fetchDipData, fetchDrinkData } from "./api.js";*/
+import { fetchMenuData, sendOrder, fetchReceipt } from "./api.js";
+import { updateCartNumber, updateTotalPrice, renderCartItems } from "./cart.js";
+import {
+  openCart,
+  openMenu,
+  openEta,
+  openReceipt,
+  resetOrder,
+} from "./toggle.js";
 
 let cart = {};
-let getOrder = "";
+let getOrderId = "";
 
-// Fetch data from API
-const wontonData = await fetchWontonData();
-const dipData = await fetchDipData();
-const drinkData = await fetchDrinkData();
-
-const dipsBtn = document.querySelector(".dips-btn");
-const drinksBtn = document.querySelector(".drinks-btn");
+// DOM Elements
 const menuVy = document.querySelector(".menu-vy");
-const cartBtn = document.querySelector(".cart-btn");
+const cartVy = document.querySelector(".cart-vy");
 const etaVy = document.querySelector(".eta-vy");
 const receiptVy = document.querySelector(".receipt-vy");
 const orderList = document.querySelector(".order-list");
-const numberOfItemInCart = document.querySelector(".note-cart");
-const SendOrder = document.querySelector("send-order");
 
-// Create and display menu items
-wontonData.items.forEach((item) => {
-  createMenuItem(item);
-});
-
-dipData.items.forEach((item) => {
-  createDipOrDrinkList(item, dipsBtn);
-});
-
-drinkData.items.forEach((item) => {
-  createDipOrDrinkList(item, drinksBtn);
-});
-
-document.querySelector(".cart-btn").addEventListener("click", () => {
-  hideAllPages();
-  cartVy.classList.remove("hide");
-
-  for (const [key, value] of Object.entries(cart)) {
-    renderOrderCart(key, value);
-    updateTotalPrice();
-  }
-});
-
-document.querySelector(".home").addEventListener("click", () => {
-  hideAllPages();
-  menuVy.classList.remove("hide");
-  orderList.innerHTML = "";
-});
-
-document.querySelector("#order").addEventListener("click", () => {
-  if (Object.keys(cart).length === 0) {
-    return;
-  } else {
-    hideAllPages();
-    etaVy.classList.remove("hide");
-    SendOrder();
-  }
-});
-
-document.querySelector(".menu").addEventListener("click", (event) => {
-  if (event.target.closest(".item")) {
-    const item = event.target.closest(".item");
-    updateCart(item.getAttribute("orderId"));
-  }
-  updateCartNumber();
-});
-
-document.querySelector(".dips-btn").addEventListener("click", (event) => {
-  if (event.currentTarget.closest("button")) {
-    const item = event.target.closest("button");
-
-    updateCart(item.getAttribute("orderId"));
-    updateCartNumber();
-  }
-});
-
-document.querySelector(".drinks-btn").addEventListener("click", (event) => {
-  if (event.currentTarget.closest("button")) {
-    const item = event.target.closest("button");
-
-    updateCart(item.getAttribute("orderId"));
-    updateCartNumber();
-  }
-});
-
-document.querySelector(".fade-btn")("click", () => {
-  hideAllPages();
-  receiptVy.classList.remove("hide");
-  renderOutReceipt();
-});
-
-document.querySelectorAll(".new-order").forEach((button) => {
-  button.addEventListener("click", () => {
-    hideAllPages();
-    menuVy.classList.remove("hide");
-    orderResetHandler();
-  });
-});
-
-function orderResetHandler() {
-  const item = document.querySelectorAll("[orderId]");
-  cart = {};
-  orderList.innerHTML = "";
-  SendOrder.innerHTML = "";
-  updateCartNumber();
-  updateTotalPrice();
-
-  const orderId = document.querySelectorAll(".order-id");
-  orderId.forEach((order) => {
-    order.innerText = "";
-  });
+async function fetchAllData() {
+  const [wontonData, dipData, drinkData] = await Promise.all([
+    fetchMenuData("wonton"),
+    fetchMenuData("dip"),
+    fetchMenuData("drink"),
+  ]);
+  return { wontonData, dipData, drinkData };
 }
 
-// menu items
+// Initialize menu
 function createMenuItem(food) {
-  const menu = document.querySelector(".menu");
-
-  let div = document.createElement("div");
+  const div = document.createElement("div");
   div.classList.add("item");
   div.setAttribute("orderId", food.id);
 
-  let span = document.createElement("span");
-  span.classList.add("dots");
-  let h2 = document.createElement("h2");
-  h2.innerText = food.name;
-  h2.append(span);
-  h2.append(`${food.price} SEK`);
-  let p = document.createElement("p");
+  const h2 = document.createElement("h2");
+  h2.innerHTML = `${food.name} <span class="dots"></span> ${food.price} SEK`;
 
-  food.ingredients.forEach((type) => {
-    p.innerText += `${type}, `;
-  });
-
-  p.innerText = p.innerText.slice(0, -2);
+  const p = document.createElement("p");
+  p.textContent = food.ingredients.join(", ");
 
   div.append(h2, p);
-  menu.append(div);
+  document.querySelector(".menu").append(div);
 }
 
-//dips n drinks
-function createDipOrDrinkList(type, sort) {
-  let button = document.createElement("button");
-  button.setAttribute("orderId", type.id);
-  button.innerText = type.name;
-
-  sort.append(button);
+// Event listeners for navigation and actions
+function addEventListeners() {
+  document.querySelector(".cart-menu").addEventListener("click", openCart);
+  document.querySelector(".home").addEventListener("click", openMenu);
+  document.querySelector("#order").addEventListener("click", openEta);
+  document
+    .querySelector(".menu")
+    .addEventListener("click", handleMenuItemClick);
+  document
+    .querySelector(".dips-btn")
+    .addEventListener("click", handleMenuItemClick);
+  document
+    .querySelector(".drinks-btn")
+    .addEventListener("click", handleMenuItemClick);
+  document.querySelector(".fade-btn").addEventListener("click", openReceipt);
+  document.querySelectorAll(".new-order").forEach((button) => {
+    button.addEventListener("click", resetOrder);
+  });
 }
 
-//hide vy
-function hideAllPages() {
-  cartBtn.classList.add("hide");
-  etaVy.classList.add("hide");
-  receiptVy.classList.add("hide");
-  menuVy.classList.add("hide");
+function handleMenuItemClick(event) {
+  const item = event.target.closest("[orderId]");
+  if (item) {
+    const itemId = item.getAttribute("orderId");
+    cart[itemId] = cart[itemId] ? cart[itemId] + 1 : 1;
+    updateCartNumber(cart);
+    updateTotalPrice(cart);
+  }
 }
+
+// Initialize everything
+async function init() {
+  const { wontonData, dipData, drinkData } = await fetchAllData();
+  wontonData.items.forEach(createMenuItem);
+  dipData.items.forEach((item) =>
+    createDipOrDrinkList(item, document.querySelector(".dips-btn"))
+  );
+  drinkData.items.forEach((item) =>
+    createDipOrDrinkList(item, document.querySelector(".drinks-btn"))
+  );
+  addEventListeners();
+}
+
+init();
