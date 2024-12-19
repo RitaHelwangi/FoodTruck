@@ -6,7 +6,7 @@ import {
   openEta,
   openReceipt,
   resetOrder,
-} from "./toggle.js";
+} from "../toggle.js";
 
 let cart = {};
 let getOrderId = "";
