@@ -156,10 +156,12 @@ function decrementCartItem(id) {
 
 // Render cart items in the order list
 async function renderCartItems() {
-  orderList.innerHTML = ""; // Clear the order list before rendering
   for (const [key, value] of Object.entries(cart)) {
-    const itemData = await fetchMenuItemData(key);
-    renderCartItem(itemData, value);
+    let itemElement = document.querySelector(`[cart-item-id="${key}"]`);
+    if (!itemElement) {
+      const itemData = await fetchMenuItemData(key);
+      renderCartItem(itemData, value);
+    }
   }
 }
 
@@ -207,18 +209,39 @@ function createQuantityButton(type, itemId, action) {
   img.src = type === "plus" ? "images/Union.png" : "images/Rectangle 22.png";
 
   button.append(img);
-  button.addEventListener("click", () => {
+  button.addEventListener("click", async () => {
+    // Update the cart object
     if (action === "increase") {
       cart[itemId] += 1;
     } else if (action === "decrease" && cart[itemId] > 1) {
       cart[itemId] -= 1;
     } else if (cart[itemId] === 1) {
       delete cart[itemId];
+      // Remove the item DOM element if quantity becomes zero
+      document.querySelector(`[cart-item-id="${itemId}"]`).remove();
+      updateCartNumber();
+      updateTotalPrice();
+      return;
     }
 
+    // Locate the item's DOM element
+    const itemElement = document.querySelector(`[cart-item-id="${itemId}"]`);
+    const quantityElement = itemElement.querySelector("p"); // Quantity display
+    const priceElement = itemElement.querySelector("h2 span.dotts + span"); // Price display
+
+    const itemData = await fetchMenuItemData(itemId);
+
+    // Update the DOM
+    if (quantityElement) {
+      quantityElement.textContent = `${cart[itemId]} stycken`; // Update quantity text
+    }
+    if (priceElement) {
+      priceElement.textContent = `${itemData.item.price * cart[itemId]} SEK`; // Update total price
+    }
+
+    // Update totals
     updateCartNumber();
     updateTotalPrice();
-    renderCartItems(); // Re-render the cart items
   });
 
   return button;

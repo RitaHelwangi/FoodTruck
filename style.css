@@ -110,10 +110,11 @@ body {
 /*******cart vy*/
 .cart-vy {
   width: 100%;
-  height: 100vh;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: var(--white);
 
   .order-list {
     margin: 6.938rem 1.5rem 1rem;
@@ -157,10 +158,11 @@ body {
 .eta-vy {
   color: var(--white);
   text-align: center;
-  height: 100vh;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: var(--grey);
 
   .eta-text {
     display: flex;
@@ -182,10 +184,11 @@ body {
 /******receipt vy*/
 .receipt-vy {
   width: 100%;
-  height: 100vh;
+
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-betweenfle;
+  background-color: var(--grey);
 
   .receipt {
     background-color: var(--white);
